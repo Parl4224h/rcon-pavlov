@@ -12,6 +12,7 @@ import {
     RocketLaunchers,
     SMGs, Snipers, TheHide, TTT, Vehicles
 } from "./itemEnums";
+export {RCONError} from "./RCONError";
 
 export enum AmmoTypes {
     Unlimited= 0,

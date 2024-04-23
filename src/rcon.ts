@@ -1,6 +1,6 @@
 import md5 from "md5";
 import * as net from "net";
-import RCONError from "./RCONError";
+import {RCONError} from "./RCONError";
 
 export class RCON {
     private readonly address: string;

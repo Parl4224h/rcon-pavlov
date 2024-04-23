@@ -46,7 +46,7 @@ import {
     UnbanResponse,
     UpdateServerNameResponse
 } from "./rconTypes";
-import RCONError from "./RCONError";
+import {RCONError} from "./RCONError";
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );

@@ -5,7 +5,7 @@ type ErrorName =
     | "CONNECTION_RESET"
     | "INVALID_RESPONSE";
 
-export default class extends Error {
+export class RCONError extends Error {
     name: ErrorName;
     message: string;
     cause: any;
