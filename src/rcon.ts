@@ -62,20 +62,12 @@ export class RCON {
                 }
                 this.socket!.on("error", () => {
                     this.close().then(() => {this.connect().then()});
-                    throw new RCONError({
-                        name: "CONNECTION_RESET",
-                        message: "Connection reset, attempting to reconnect",
-                    });
                 });
             }
             return this.socket!.emit(json.Command, json);
         });
         this.socket!.on("error", () => {
             this.close().then(() => {this.connect().then()});
-            throw new RCONError({
-                name: "CONNECTION_RESET",
-                message: "Connection reset, attempting to reconnect",
-            });
         });
     }
 
