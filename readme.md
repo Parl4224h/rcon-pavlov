@@ -41,3 +41,7 @@ const main = async () => {
 main().then(() => {console.log('done')}).catch(console.error);
 ```
 
+## Change Log
+- v1.0.3
+  - Exported error type for easier error handling
+
