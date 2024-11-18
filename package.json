@@ -1,6 +1,6 @@
 {
   "name": "rcon-pavlov",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A fully typed RCON package for Pavlov VR custom servers",
   "main": "./dist/server.js",
   "module": "./dist/server.mjs",
