@@ -7,16 +7,12 @@ export class RCON {
     private readonly port: number;
     private readonly password: string;
     private socket: null | net.Socket = null;
-    private active = false;
+    protected active = false;
 
     constructor(address: string, port: number, password: string) {
         this.address = address;
         this.port = port
         this.password = md5(password);
-    }
-
-    connected(): boolean {
-        return this.active;
     }
 
     async connect() {

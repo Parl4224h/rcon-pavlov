@@ -70,6 +70,13 @@ export class Server extends RCON {
     }
 
     /**
+     * Returns whether there is an active connection to the server or not
+     */
+    connected(): boolean {
+        return this.active;
+    }
+
+    /**
      * Adds a map to the server's map rotation. Writes the entry to Game.ini
      * @param map Resource id of the map to add ie industry
      * @param gamemode Gamemode for the map to be on is not case-sensitive but is commonly all caps ie SND, TDM, DM
