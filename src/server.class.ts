@@ -62,10 +62,13 @@ export class Server extends RCON {
      * @param rconPort port for RCON on the server
      * @param rconPassword password for RCON on the server
      * @param timeout max number of seconds to wait on a server response
+     * @param autoConnect whether to automatically connect to the server, default is true
      */
-    constructor(ip: string, rconPort: number, rconPassword: string, timeout: number) {
-        super(ip, rconPort, rconPassword)
-        this.connect().then();
+    constructor(ip: string, rconPort: number, rconPassword: string, timeout: number, autoConnect: boolean = true) {
+        super(ip, rconPort, rconPassword);
+        if (autoConnect) {
+            this.connect().then();
+        }
         this.maxAttempts = (timeout * 1000) / delayTime;
     }
 
