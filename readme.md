@@ -42,6 +42,8 @@ main().then(() => {console.log('done')}).catch(console.error);
 ```
 
 ## Change Log
+- v1.0.4
+  - Added connected() which checks if there is an active connection to the server
 - v1.0.3
   - Exported error type for easier error handling
 

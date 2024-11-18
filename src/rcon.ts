@@ -7,11 +7,16 @@ export class RCON {
     private readonly port: number;
     private readonly password: string;
     private socket: null | net.Socket = null;
+    private active = false;
 
     constructor(address: string, port: number, password: string) {
         this.address = address;
         this.port = port
         this.password = md5(password);
+    }
+
+    connected(): boolean {
+        return this.active;
     }
 
     async connect() {
@@ -27,6 +32,7 @@ export class RCON {
                         message: "Invalid password provided to server",
                     });
                 }
+                this.active = true;
                 return this.socket!.emit('Authenticated', data.toString());
             }
             if(!data.toString().startsWith('{')) {
@@ -67,6 +73,7 @@ export class RCON {
             return this.socket!.emit(json.Command, json);
         });
         this.socket!.on("error", () => {
+            this.active = false;
             this.close().then(() => {this.connect().then()});
         });
     }
@@ -77,6 +84,7 @@ export class RCON {
     }
 
     async close(): Promise<void> {
+        this.active = false;
         this.socket!.end()
     }
 
