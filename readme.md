@@ -42,6 +42,8 @@ main().then(() => {console.log('done')}).catch(console.error);
 ```
 
 ## Change Log
+- v1.0.8
+  - Update build process to no longer duplicate enum types, allowing for usage of enums in code without issues
 - v1.0.5
   - Added connected() which checks if there is an active connection to the server
 - v1.0.3

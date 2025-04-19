@@ -1,6 +1,6 @@
 {
   "name": "rcon-pavlov",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A fully typed RCON package for Pavlov VR custom servers",
   "main": "./dist/server.js",
   "module": "./dist/server.mjs",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/md5": "^2.3.5",
     "ts-node": "^10.9.2",
-    "tsup": "^8.0.2",
+    "tsup": "8.3.5",
     "typescript": "^5.4.5"
   },
   "dependencies": {
