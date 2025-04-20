@@ -1,3 +1,17 @@
+import {
+    Ammo,
+    Attachments,
+    Grenades,
+    Heavies,
+    Medical,
+    Misc,
+    Pistols,
+    Push,
+    Rifles,
+    RocketLaunchers,
+    SMGs, Snipers, TheHide, TTT, Vehicles
+} from "./itemEnums";
+
 interface PlayerInspect {
     PlayerName: string;
     UniqueId: string;
@@ -10,46 +24,67 @@ interface PlayerInspect {
     Gag: boolean;
 }
 
-export type GameModes =
-    | "DM"
-    | "KOTH"
-    | "GUN"
-    | "OITC"
-    | "SND"
-    | "TANKTDM"
-    | "TDM"
-    | "TTT"
-    | "TTTclassic"
-    | "WW2GUN"
-    | "ZWV"
-    | "HIDE"
-    | "INFECTION"
-    | "PUSH"
-    | "PH";
+export enum GameModes {
+    DeathMatch= "DM",
+    KingOfTheHill= "KOTH",
+    GunGame= "GUN",
+    OneInTheChamber= "OITC",
+    SearchAndDestroy= "SND",
+    WW2TeamDeathMatch= "WW2TDM",
+    TeamDeathMatch= "TDM",
+    TroubleInTerroristTown= "TTT",
+    TroubleInTerroristTownClassic= "TTTclassic",
+    WW2GunGame= "WW2GUN",
+    ZombieWaveSurvival= "ZWV",
+    TheHidden= "HIDE",
+    HiddenInfection= "INFECTION",
+    Push= "PUSH",
+    PropHunt= "PH",
+}
 
-export type AmmoTypes =
-    | 0
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5;
+export enum AmmoTypes {
+    Unlimited= 0,
+    LimitedGeneric= 1,
+    LimitedSpecific= 2,
+    Custom= 3,
+    LimitedSpecial= 4,
+    Boxless= 5,
+}
 
-export type TTTRole =
-    | "Detective"
-    | "Sheriff"
-    | "Tank"
-    | "Innocent"
-    | "Mercenary"
-    | "Survivalist"
-    | "Glitch"
-    | "Jester"
-    | "Psychopath"
-    | "Lone Wolf"
-    | "Traitor"
-    | "Hypnotist"
-    | "Soulmate"
-    | "Zombie";
+export const Items = {
+    Ammo: Ammo,
+    Attachments: Attachments,
+    Grenades: Grenades,
+    Heavies: Heavies,
+    Medical: Medical,
+    Misc: Misc,
+    Pistols: Pistols,
+    Push: Push,
+    Rifles: Rifles,
+    RocketLaunchers: RocketLaunchers,
+    SMGs: SMGs,
+    Snipers: Snipers,
+    TheHide: TheHide,
+    TTT: TTT,
+    Vehicles: Vehicles,
+}
+
+export enum TTTRole {
+    Detective= "Detective",
+    Sheriff= "Sheriff",
+    Tank= "Tank",
+    Innocent= "Innocent",
+    Mercenary= "Mercenary",
+    Survivalist= "Survivalist",
+    Glitch= "Glitch",
+    Jester= "Jester",
+    Psychopath= "Psychopath",
+    LoneWolf= "Lone Wolf",
+    Traitor= "Traitor",
+    Hypnotist= "Hypnotist",
+    Soulmate= "Soulmate",
+    Zombie= "Zombie",
+}
 
 export interface BaseCommandResponse {
     Command: string;
