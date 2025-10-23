@@ -8,6 +8,7 @@ export class RCON {
     private readonly password: string;
     private socket: null | net.Socket = null;
     protected active = false;
+    private commandQueues: Map<string, Promise<void>> = new Map();
 
     constructor(address: string, port: number, password: string) {
         this.address = address;
@@ -62,9 +63,6 @@ export class RCON {
                         cause: data.toString(),
                     })
                 }
-                this.socket!.on("error", () => {
-                    this.close().then(() => {this.connect().then()});
-                });
             }
             return this.socket!.emit(json.Command, json);
         });
@@ -75,8 +73,22 @@ export class RCON {
     }
 
     async send(command: string, commandName: string, cb: any) {
-        this.socket!.write(command);
-        return this.socket?.once(commandName, cb);
+        const run = () => new Promise<void>((resolve) => {
+            const handler = (data: any) => {
+                try { cb(data); } finally { resolve(); }
+            };
+            this.socket!.once(commandName, handler);
+            this.socket!.write(command);
+        });
+
+        const prev = this.commandQueues.get(commandName) || Promise.resolve();
+        const curr = prev.then(() => run());
+        this.commandQueues.set(commandName, curr.finally(() => {
+            if (this.commandQueues.get(commandName) === curr) {
+                this.commandQueues.delete(commandName);
+            }
+        }));
+        await curr;
     }
 
     async close(): Promise<void> {

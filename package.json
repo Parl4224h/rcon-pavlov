@@ -1,6 +1,6 @@
 {
   "name": "rcon-pavlov",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A fully typed RCON package for Pavlov VR custom servers",
   "main": "./dist/server.js",
   "module": "./dist/server.mjs",
@@ -9,8 +9,8 @@
     "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup"
+    "build": "tsup",
+    "test": "npm run build && node tests/listener-queue.test.js"
   },
   "repository": {
     "type": "git",

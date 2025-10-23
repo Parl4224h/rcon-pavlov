@@ -42,6 +42,8 @@ main().then(() => {console.log('done')}).catch(console.error);
 ```
 
 ## Change Log
+- v1.2.0
+  - Commands are now sent using a queue to prevent too many listeners from being created and preserve order of commands
 - v1.1.0
   - Remove union types and use enums instead to fully resolve typing issues
 - v1.0.8
