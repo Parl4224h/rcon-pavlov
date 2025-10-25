@@ -42,6 +42,8 @@ main().then(() => {console.log('done')}).catch(console.error);
 ```
 
 ## Change Log
+- v1.2.1
+  - Fixed an issue where a single request could last forever preventing resolving
 - v1.2.0
   - Commands are now sent using a queue to prevent too many listeners from being created and preserve order of commands
 - v1.1.0

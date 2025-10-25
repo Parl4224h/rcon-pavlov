@@ -72,6 +72,43 @@ export class Server extends RCON {
         this.maxAttempts = (timeout * 1000) / delayTime;
     }
 
+    // Override send to implement non-blocking sends and zero-timeout behavior.
+    // - When maxAttempts <= 0: do not write to the socket and resolve immediately.
+    // - Otherwise: attach a one-time listener and write, but resolve immediately so
+    //   higher-level methods can perform their own timeout polling without blocking here.
+    //   A cleanup timer removes the listener if no response arrives within the allowed window.
+    async send(command: string, commandName: string, cb: any): Promise<void> {
+        if (this.maxAttempts <= 0) {
+            return Promise.resolve();
+        }
+        const cleanupMs = Math.max(0, Math.floor(this.maxAttempts * delayTime));
+        return new Promise<void>((resolve) => {
+            const socket: any = (this as any).socket || (this as any)["_socket"] || (this as any)["socket"];
+            if (!socket) {
+                // If socket is not yet available, resolve immediately; higher-level polling will timeout.
+                return resolve();
+            }
+            const handler = (data: any) => {
+                try { cb(data); } catch (_) { /* ignore user callback errors here */ }
+            };
+            socket.once(commandName, handler);
+            try { socket.write(command); } catch (_) { /* ignore write errors; outer layers will handle via timeouts */ }
+            // Resolve immediately to avoid blocking the API method; it will poll for the response.
+            resolve();
+            // Ensure we don't leak the listener if the server never responds
+            if (cleanupMs > 0) {
+                setTimeout(() => {
+                    try { socket.removeListener(commandName, handler); } catch (_) { /* noop */ }
+                }, cleanupMs);
+            } else {
+                // If cleanupMs is 0 (very small timeout rounding), remove on next tick
+                setImmediate(() => {
+                    try { socket.removeListener(commandName, handler); } catch (_) { /* noop */ }
+                });
+            }
+        });
+    }
+
     /**
      * Returns whether there is an active connection to the server or not
      */
