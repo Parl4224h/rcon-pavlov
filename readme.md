@@ -42,6 +42,8 @@ main().then(() => {console.log('done')}).catch(console.error);
 ```
 
 ## Change Log
+- v1.2.2
+  - Fixed another issue where a single request could last forever preventing resolving
 - v1.2.1
   - Fixed an issue where a single request could last forever preventing resolving
 - v1.2.0

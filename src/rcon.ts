@@ -9,11 +9,13 @@ export class RCON {
     private socket: null | net.Socket = null;
     protected active = false;
     private commandQueues: Map<string, Promise<void>> = new Map();
+    private readonly timeout: number;
 
-    constructor(address: string, port: number, password: string) {
+    constructor(address: string, port: number, password: string, timeout: number) {
         this.address = address;
         this.port = port
         this.password = md5(password);
+        this.timeout = timeout;
     }
 
     async connect() {
@@ -75,10 +77,15 @@ export class RCON {
     async send(command: string, commandName: string, cb: any) {
         const run = () => new Promise<void>((resolve) => {
             const handler = (data: any) => {
-                try { cb(data); } finally { resolve(); }
+                try { cb(data); } finally { clearTimeout(timeoutId); resolve(); }
             };
             this.socket!.once(commandName, handler);
-            this.socket!.write(command);
+            // Ensure we don't block forever if the server never responds// 10s safety timeout to avoid indefinite hang
+            const timeoutId = setTimeout(() => {
+                try { this.socket!.removeListener(commandName, handler); } catch (_) { /* noop */ }
+                resolve();
+            }, this.timeout);
+            try { this.socket!.write(command); } catch (_) { clearTimeout(timeoutId); resolve(); }
         });
 
         const prev = this.commandQueues.get(commandName) || Promise.resolve();

@@ -65,7 +65,7 @@ export class Server extends RCON {
      * @param autoConnect whether to automatically connect to the server, default is true
      */
     constructor(ip: string, rconPort: number, rconPassword: string, timeout: number, autoConnect: boolean = true) {
-        super(ip, rconPort, rconPassword);
+        super(ip, rconPort, rconPassword, timeout * 1000);
         if (autoConnect) {
             this.connect().then();
         }
